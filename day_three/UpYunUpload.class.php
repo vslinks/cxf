@@ -18,7 +18,7 @@ class UpYunUpload
         'root' => '/img',  //根目录
         'username' => '',//操作员名称
         'password'  => 'abc123456',  //操作员密码
-        'bucket' =>   'maihoho', //�ռ�����
+        'bucket' =>   'maihoho', //空间名称
     ];
     public $info = null;//>>保存错误信息
     private $upyun;   //>>保存upyun对象

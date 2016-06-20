@@ -253,7 +253,9 @@ class MeExcel
             }
         }
 
-        //>>获取图片
+        //>>因为图片读取数据量太大,注释暂不使用.
+
+/*        //>>获取图片
         $imageData = $this->gainImage($file);
         if(!empty($imageData)){
             //>>把图片数据
@@ -265,7 +267,7 @@ class MeExcel
                     }
                 }
             }
-        }
+        }*/
         return $data;
     }
 
@@ -325,20 +327,5 @@ class MeExcel
         }
         return $imgData;
 
-    }
-
-    public function istest($files){
-        $cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_in_memory_gzip;
-        $cacheSettings = array();
-        PHPExcel_Settings::setCacheStorageMethod($cacheMethod,$cacheSettings);
-
-        $objPHPExcel = new PHPExcel();
-
-//读入上传文件
-        $objPHPExcel = PHPExcel_IOFactory::load($files);
-
-//内容转换为数组
-        $indata = $objPHPExcel->getActiveSheet()->toArray();
-        return $indata;
     }
 }
