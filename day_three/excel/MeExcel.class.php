@@ -2,13 +2,12 @@
 
 /**
  * Created by PhpStorm.
- * User: Administrator
+ * User: asan
  * Date: 2016/6/16
  * Time: 16:20
  */
 
 /**
- * 主要用来封装一些方法实现 excel 的一些简单操作
  * 可以从excel 中导入数据和图片,一个单元格只能放一张图片
  * 如果导入图片,因为数据量太大,会导致内存溢出.不建议使用.
  * 可以把从数据库取出的数据存入excel 中,不能存放图片
@@ -24,8 +23,6 @@ if (!defined('PHP_EXCEL_ROOT_PATH')) {
 }
 //>>引入phpExcel  主类文件
 require_once PHP_EXCEL_ROOT_PATH . 'Classes/PHPExcel.php';
-//>>引入2007文件，用于输出xlsx格式表格
-//require PHP_EXCEL_ROOT_PATH . 'Classes/PHPExcel/Writer/Excel2007.php';
 
 class MeExcel
 {
@@ -108,25 +105,6 @@ class MeExcel
                $objPHPExcel->getActiveSheet()->getStyle('E13')->getBorders()->getBottom()->getColor()->setARGB('FF993300');
                $objPHPExcel->getActiveSheet()->getStyle('E13')->getBorders()->getRight()->getColor()->setARGB('FF993300');*/
 
-
-        //插入图像
-//        $objDrawing = new PHPExcel_Worksheet_Drawing();
-
-        /*设置图片路径 切记：只能是本地图片*/
-//        $objDrawing->setPath('图像地址');
-
-        /*设置图片高度*/
-        /*        $objDrawing->setHeight(180);//照片高度
-                $objDrawing->setWidth(150); //照片宽度*/
-
-        /*设置图片要插入的单元格*/
-//        $objDrawing->setCoordinates('E2');
-        /*设置图片所在单元格的格式*/
-        /*        $objDrawing->setOffsetX(5);
-                $objDrawing->setRotation(5);
-                $objDrawing->getShadow()->setVisible(true);
-                $objDrawing->getShadow()->setDirection(50);
-                $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());*/
         //最后输入浏览器，导出Excel
         $savename = '导出测试';
         $ua = $_SERVER["HTTP_USER_AGENT"];
@@ -158,14 +136,14 @@ class MeExcel
         }
 
         foreach ($rows as $key => $row) {
-            //>>再循环一层
+            //>>输出数据
             $j = 0;
             foreach ($row as $val) {
                 $objPHPExcel->getActiveSheet()->setCellValue($this->alphabet($j) . ($key + 2), $val);
                 ++$j;
             }
         }
-        //>>设定编码 ,这个 很重要 要不然乱码.
+        //>>设定编码 ,这个很重要,要不然乱码.
         header("Content-Type:application/vnd.ms-execl; charset=utf8");
         //日期为文件名后缀
         header('Content-Disposition: attachment;filename="' . $savename . '.xls"');
@@ -290,8 +268,10 @@ class MeExcel
         $cacheSettings = array();
         PHPExcel_Settings::setCacheStorageMethod($cacheMethod,$cacheSettings);
 
-        $imageExcel = PHPExcel_IOFactory::load($file);//把导入的文件目录传入，系统会自动找到对应的解析类
-        $sheet = $imageExcel->getSheet(0);//选择第几个表，如下面图片，默认有三个表
+        //把导入的文件目录传入，系统会自动找到对应的解析类
+        $imageExcel = PHPExcel_IOFactory::load($file);
+        //选择第几个表，如下面图片，默认有三个表
+        $sheet = $imageExcel->getSheet(0);
         //把表格的数据转换为数组，注意：
         //这里转换是以行号为数组的外层下标，列号会转成数字为数组内层下标，坐标对应的值只会取字符串保留在这里，图片或链接不会出现在这里。
         $data = $sheet->toArray();

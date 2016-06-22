@@ -15,9 +15,9 @@ $rows = [
 ];
 $title = null;//标题数据
 //>>可以传入标题,也可以直接从取出字段
-//$meExcel->write($rows,$title);
+$meExcel->write($rows,$title);
 //>>文件地址
-$file = DEMO_PATH . 'static/test09.xls';
-$arr = $meExcel->read($file);
-echo "<pre>";
-var_dump($arr);
+//$file = DEMO_PATH . 'static/test09.xls';
+//$arr = $meExcel->read($file);
+//echo "<pre>";
+//var_dump($arr);
